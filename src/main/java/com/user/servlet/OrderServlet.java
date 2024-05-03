@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.DAO.BookDAOImpl;
 import com.DAO.BookOrderImpl;
 import com.DAO.CartDAOImpl;
 import com.DB.DBConnect;
@@ -37,17 +38,18 @@ public class OrderServlet extends HttpServlet {
 			String state = req.getParameter("state");
 			String pincode = req.getParameter("pincode");
 			String paymentType = req.getParameter("payment");
-
+			System.out.print("pay" + paymentType);
 			String fullAdd = address + "," + landmark + "," + city + "," + state + "," + pincode;
 
 			// System.out.println(name+" "+email+" "+phno+" "+fullAdd+" "+paymentType);
 
 			CartDAOImpl dao = new CartDAOImpl(DBConnect.getConn());
+
 			List<Cart> blist = dao.getBookByUser(id);
 
 			if (blist.isEmpty()) {
 				session.setAttribute("failedMsg", "Add Item");
-					resp.sendRedirect("checkout.jsp");
+				resp.sendRedirect("checkout.jsp");
 			} else {
 				BookOrderImpl dao2 = new BookOrderImpl(DBConnect.getConn());
 				int i = dao2.getOrderNo();
@@ -60,15 +62,21 @@ public class OrderServlet extends HttpServlet {
 					i++;
 					o = new Book_Order();
 					o.setOrderId("BOOK-ORD-00" + i);
+					System.out.println("BOOK-ORD-00" + i);
 					o.setUserName(name);
 					o.setEmail(email);
 					o.setPhno(phno);
+					o.setAddress(address);
+					o.setLandmark(landmark);
+					o.setCity(city);
+					o.setState(state);
+					o.setPincode(pincode);
 					o.setFulladd(fullAdd);
 					o.setBookName(c.getBookName());
 					o.setAuthor(c.getAuthor());
-					o.setPrice(c.getPrice() + "");
+					o.setPrice(c.getTotal_price() + "");
 					o.setPaymentType(paymentType);
-
+					o.setQuantity(c.getQuantity());
 					orderList.add(o);
 
 				}
@@ -78,16 +86,31 @@ public class OrderServlet extends HttpServlet {
 					resp.sendRedirect("checkout.jsp");
 
 				} else {
+					BookDAOImpl bdao = new BookDAOImpl(DBConnect.getConn());
+					boolean flag = false;
 
-					Boolean f = dao2.saveOrder(orderList);
-					if (f) {
+					flag = bdao.updateQuantity(id);
 
-						resp.sendRedirect("order_success.jsp");
-						// System.out.println("Ordder Success");
+					System.out.print("flag" + flag);
+					if (flag) {
+						Boolean f = dao2.saveOrder(orderList);
+						System.out.println("Ordder update Success ");
+						// System.out.print("flag"+flag);
+						if (f) {
+
+							dao.deleteBookByUser(id);
+							resp.sendRedirect("order_success.jsp");
+
+							System.out.println("Ordder Success");
+						} else {
+							session.setAttribute("failedMsg", "Your Order failed");
+							resp.sendRedirect("checkout.jsp");
+							// System.out.println("Order failed");
+						}
 					} else {
-						session.setAttribute("failedMsg", "Your Order failed");
+
+						session.setAttribute("failedMsg", "Your Out Of Stock");
 						resp.sendRedirect("checkout.jsp");
-						// System.out.println("Order failed");
 					}
 
 				}

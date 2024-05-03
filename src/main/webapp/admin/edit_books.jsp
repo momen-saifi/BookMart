@@ -23,16 +23,16 @@
 					<div class="card-body">
 						<h4 class="text-center">Edit Books</h4>
 
-						
+
 						<%
-							int id = Integer.parseInt(request.getParameter("id"));
-							BookDAOImpl dao = new BookDAOImpl(DBConnect.getConn());
-							BookDtls b = dao.getBookById(id);
+						int id = Integer.parseInt(request.getParameter("id"));
+						BookDAOImpl dao = new BookDAOImpl(DBConnect.getConn());
+						BookDtls b = dao.getBookById(id);
 						%>
 
 
 						<form action="../editbooks" method="post">
-						<input type="hidden" name="id" value="<%=b.getBookId() %>">
+							<input type="hidden" name="id" value="<%=b.getBookId()%>">
 							<div class="form-group">
 								<label for="exampleInputEmail">Book Name*</label><input
 									name="bname" type="text" class="form-control"
@@ -51,24 +51,29 @@
 									value="<%=b.getPrice()%>">
 							</div>
 							<div class="form-group">
+								<label for="exampleInputEmail">Quantity</label><input
+									name="quantity" type="text" class="form-control"
+									id="exampleInputEmail" value="<%=b.getQuantity()%>">
+							</div>
+							<div class="form-group">
 								<label for="inputState">Book Status</label><select
 									id="inputState" name="status" class="form-control">
 
 									<%
-										if ("Active".equals(b.getStatus())) {
+									if ("Active".equals(b.getStatus())) {
 									%>
 
 									<option value="Active">Active</option>
 
 									<%
-										} else {
+									} else {
 									%>
 
 									<option value="Inactive">Inactive</option>
 
 
 									<%
-										}
+									}
 									%>
 
 

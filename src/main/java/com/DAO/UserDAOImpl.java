@@ -55,11 +55,12 @@ public class UserDAOImpl implements UserDAO {
 				us.setEmail(rs.getString(3));
 				us.setPhno(rs.getString(4));
 				us.setPassword(rs.getString(5));
-				us.setAddress(rs.getString(6));
-				us.setLandmark(rs.getString(7));
-				us.setCity(rs.getString(8));
-				us.setState(rs.getString(9));
-				us.setPincode(rs.getString(10));
+//				us.setAddress(rs.getString(6));
+//				us.setLandmark(rs.getString(7));
+//				us.setCity(rs.getString(8));
+//				us.setState(rs.getString(9));
+//				us.setPincode(rs.getString(10));
+				us.setUserType(rs.getString(6));
 
 			}
 		} catch (Exception e) {
@@ -83,7 +84,6 @@ public class UserDAOImpl implements UserDAO {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-
 		}
 		return f;
 	}
@@ -127,6 +127,23 @@ public class UserDAOImpl implements UserDAO {
 		}
 		return f;
 
+	}
+
+	public boolean changePassword(String email, String password) {
+
+		try {
+			PreparedStatement statement = conn.prepareStatement("UPDATE user SET password = ? WHERE email = ?");
+
+			statement.setString(1, password);
+			statement.setString(2, email);
+
+			int rowsAffected = statement.executeUpdate();
+			return rowsAffected > 0;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 }

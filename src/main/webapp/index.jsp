@@ -93,9 +93,32 @@
 							} else {
 							%>
 
+
+
+							<%
+							if (b.getQuantity() == 0) {
+							%>
+							<a href="cart?bid=<%=b.getBookId()%>&&uid=<%=u.getId()%>"
+								class="btn btn-secondary btn-sm ml-2 disabled"> <i
+								class="fas fa-cart-plus"></i> Sold Out
+							</a>
+
+
+							<%
+							} else {
+							%>
+
+
 							<a href="cart?bid=<%=b.getBookId()%>&&uid=<%=u.getId()%>"
 								class="btn btn-danger btn-sm ml-2"><i
 								class="fas fa-cart-plus"></i>Add Cart</a>
+
+							<%
+							}
+							%>
+
+
+
 
 							<%
 							}
@@ -167,9 +190,29 @@
 							} else {
 							%>
 
+						<%
+							if (b.getQuantity() == 0) {
+							%>
+							<a href="cart?bid=<%=b.getBookId()%>&&uid=<%=u.getId()%>"
+								class="btn btn-secondary btn-sm ml-2 disabled"> <i
+								class="fas fa-cart-plus"></i> Sold Out
+							</a>
+
+
+							<%
+							} else {
+							%>
+
+
 							<a href="cart?bid=<%=b.getBookId()%>&&uid=<%=u.getId()%>"
 								class="btn btn-danger btn-sm ml-2"><i
 								class="fas fa-cart-plus"></i>Add Cart</a>
+
+							<%
+							}
+							%>
+
+
 
 							<%
 							}
@@ -247,5 +290,8 @@
 	<!-- End Old Book -->
 
 	<%@include file="all_component/footer.jsp"%>
+	
+	
+
 </body>
 </html>

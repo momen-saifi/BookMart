@@ -27,20 +27,22 @@ public class LoginServlet extends HttpServlet {
 
 			String email = req.getParameter("email");
 			String password = req.getParameter("password");
+			
+		
 
 			// System.out.println(email+" "+password);
+			User us = dao.login(email, password);
+			if (us!=null && us.getUserType().equals("admin")) {
 
-			if ("admin@gmail.com".equals(email) && "admin".equals(password)) {
-
-				User us = new User();
-				us.setName("Admin");
+//				User us = new User();
+				//us.setName("Admin");
 
 				session.setAttribute("userobj", us);
 
 				resp.sendRedirect("admin/home.jsp");
 			} else {
 
-				User us = dao.login(email, password);
+				
 
 				if (us != null) {
 					session.setAttribute("userobj", us);

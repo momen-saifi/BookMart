@@ -36,7 +36,8 @@
 						</c:if>
 
 
-						<form action="../add_books" method="post" enctype="multipart/form-data">
+						<form action="../add_books" method="post"
+							enctype="multipart/form-data">
 							<div class="form-group">
 								<label for="exampleInputEmail">Book Name*</label><input
 									name="bname" type="text" class="form-control"
@@ -67,6 +68,11 @@
 								</select>
 							</div>
 
+							<div class="form-group">
+								<label for="exampleInputEmail">Quantity*</label><input
+									name="quantity" type="number" class="form-control"
+									id="exampleInputEmail">
+							</div>
 							<div class="form-group">
 								<label for="exampleFormControlFile1">Upload Photo</label><input
 									name="bimg" type="file" class="form-control-file"

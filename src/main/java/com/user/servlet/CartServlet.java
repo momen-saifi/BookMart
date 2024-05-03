@@ -28,30 +28,70 @@ public class CartServlet extends HttpServlet {
 
 			int uid = Integer.parseInt(req.getParameter("uid"));
 
+			String location = req.getParameter("loc");
+			if(location==null) {
+				location="notcart";
+			}
+
 			BookDAOImpl dao = new BookDAOImpl(DBConnect.getConn());
-
-			BookDtls b = dao.getBookById(bid);
-
-			Cart c = new Cart();
-			c.setBid(bid);
-			c.setUserId(uid);
-			c.setBookName(b.getBookName());
-			c.setAuthor(b.getAuthor());
-			c.setPrice(Double.parseDouble(b.getPrice()));
-			c.setTotal_price(Double.parseDouble(b.getPrice()));
-
 			CartDAOImpl dao2 = new CartDAOImpl(DBConnect.getConn());
-			boolean f = dao2.addCart(c);
-
 			HttpSession session = req.getSession();
+			int isAvailableBook = 0;
+			isAvailableBook = dao.getQuantityByBookId(bid);
+
+			boolean f = false;
+			boolean flag = dao2.getBookByBUId(uid, bid);
+
+			if (flag) {
+				int cartQuantity = dao2.getQuantityByBUId(uid, bid);
+				if (isAvailableBook > cartQuantity) {
+					System.out.println(isAvailableBook + " " + cartQuantity);
+					f = dao2.updatePieceCountByBUId(uid, bid);
+					System.out.println(" Added");
+
+				} else {
+					session.setAttribute("failedMsg", "Your Out Of Stock");
+					if (location.equals("cart")) {
+						resp.sendRedirect("checkout.jsp");
+						System.out.println("Not Added");
+					} else {
+						resp.sendRedirect("all_new_book.jsp");
+						System.out.println("Not Added");
+					}
+
+					return;
+				}
+
+			} else {
+				BookDtls b = dao.getBookById(bid);
+
+				Cart c = new Cart();
+				c.setBid(bid);
+				c.setUserId(uid);
+				c.setBookName(b.getBookName());
+				c.setAuthor(b.getAuthor());
+				c.setPrice(Double.parseDouble(b.getPrice()));
+				c.setTotal_price(Double.parseDouble(b.getPrice()));
+
+				f = dao2.addCart(c);
+
+			}
 
 			if (f) {
 				session.setAttribute("addCart", "Book Added to cart");
-				resp.sendRedirect("all_new_book.jsp");
+				if (location.equals("cart")) {
+					resp.sendRedirect("checkout.jsp");
+				} else {
+					resp.sendRedirect("all_new_book.jsp");
+				}
+
 			} else {
 				session.setAttribute("failed", "Somthing Wrong on server");
-				resp.sendRedirect("all_new_book.jsp");
-
+				if (location.equals("cart")) {
+					resp.sendRedirect("checkout.jsp");
+				} else {
+					resp.sendRedirect("all_new_book.jsp");
+				}
 			}
 
 		} catch (Exception e) {

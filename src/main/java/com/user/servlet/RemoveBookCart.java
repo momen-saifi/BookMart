@@ -21,14 +21,26 @@ public class RemoveBookCart extends HttpServlet {
 		int bid = Integer.parseInt(req.getParameter("bid"));
 		int uid = Integer.parseInt(req.getParameter("uid"));
 		int cid = Integer.parseInt(req.getParameter("cid"));
+		
+		int quantity=Integer.parseInt(req.getParameter("quantity"));
 
+		String pic = req.getParameter("pic");
 		CartDAOImpl dao = new CartDAOImpl(DBConnect.getConn());
-		boolean f = dao.deleteBook(bid, uid, cid);
+		
+		
+		boolean f=false;
+		if(pic.equals("all") ||quantity==1){
+			f = dao.deleteBook(bid, uid, cid);
+		}
+		else {
+			f=dao.removePieceCountByBUId(uid,bid);
+		}
+		
 
 		HttpSession session = req.getSession();
 
 		if (f) {
-			session.setAttribute("succMsg", "Bookk Removed from cart");
+			session.setAttribute("succMsg", "Book Removed from cart");
 			resp.sendRedirect("checkout.jsp");
 		} else {
 			session.setAttribute("failedMsg", "Something wrong on server");

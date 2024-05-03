@@ -1,6 +1,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page isELIgnored="false"%>
 <%@page import="com.entity.User"%>
+
+<%
+User user = (User) session.getAttribute("userobj");
+%>
 <div class="container-fluid"
 	style="height: 10px; background-color: #303f9f"></div>
 
@@ -25,8 +29,10 @@
 
 
 			<div class="col-md-3">
+
 				<a href="checkout.jsp"><i
-					class="fa-solid fa-cart-plus fa-2x mt-2x"></i></a> <a href="login.jsp"
+					class="fa-solid fa-cart-plus fa-2x mt-2x"></i></a> <span id="bookCount"
+					class="badge badge-pill bg-primary"></span> <a href="login.jsp"
 					class="btn btn-success"><i class="fas fa-user-plus"
 					aria-hidden="true"></i>${userobj.name  }</a> <a href="logout"
 					class="btn btn-primary text-white"><i
@@ -87,3 +93,41 @@
 		</form>
 	</div>
 </nav>
+<c:if test="${not empty userobj }">
+	<script>
+		function updateBookCount(userId) {
+			// Make an AJAX request to the servlet to get the updated book count
+			var xhr = new XMLHttpRequest();
+			xhr.open("GET", "count_book?uid=" + userId, true);
+			xhr.onreadystatechange = function() {
+				if (xhr.readyState === 4 && xhr.status === 200) {
+					// Update the book count on the page
+					document.getElementById("bookCount").innerText = xhr.responseText;
+				}
+			};
+			xhr.send();
+		}
+
+		function deleteBookNill() {
+			// Make an AJAX request to the servlet to delete books with zero quantity
+			var xhr = new XMLHttpRequest();
+			xhr.open("GET", "delete_nill_book", true);
+			xhr.onreadystatechange = function() {
+				if (xhr.readyState === 4 && xhr.status === 200) {
+					// Update the UI or do something else if needed
+				}
+			};
+			xhr.send();
+		}
+
+		window.onload = function() {
+			var userId =
+	<%=user.getId()%>
+		; // You need to define the user id here
+			updateBookCount(userId);
+			deleteBookNill();
+		};
+	</script>
+
+
+</c:if>

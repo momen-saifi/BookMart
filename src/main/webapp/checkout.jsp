@@ -46,6 +46,9 @@
 									<th scope="col">Book Name</th>
 									<th scope="col">Author</th>
 									<th scope="col">Price</th>
+									<th scope="col">Quentity</th>
+									<th scope="col">Total Price</th>
+									
 									<th scope="col">Action</th>
 								</tr>
 							</thead>
@@ -62,8 +65,29 @@
 									<th scope="row"><%=c.getBookName()%></th>
 									<td><%=c.getAuthor()%></td>
 									<td><%=c.getPrice()%></td>
+									
 									<td><a
-										href="remove_book?bid=<%=c.getBid()%>&uid=<%=c.getUserId()%>&cid=<%=c.getCid()%>"
+										href="remove_book?bid=<%=c.getBid()%>&uid=<%=c.getUserId()%>&cid=<%=c.getCid()%>&quantity=<%= c.getQuantity() %>&pic="one"
+										class="btn btn-sm btn-danger">-</a><%= c.getQuantity() %>
+										
+										
+
+							<a href="cart?bid=<%= c.getBid() %>&uid=<%= c.getUserId() %>&loc=cart"
+								class="btn btn-danger btn-sm ml-2">+</a>
+										
+										
+										
+										</td>
+										
+										
+										
+										
+										
+									<td><%= c.getPrice() * c.getQuantity() %></td>
+
+									
+									<td><a
+										href="remove_book?bid=<%=c.getBid()%>&uid=<%=c.getUserId()%>&cid=<%=c.getCid()%>&quantity <%= c.getQuantity() %>&pic="all"
 										class="btn btn-sm btn-danger">Remove</a></td>
 								</tr>
 
@@ -75,6 +99,9 @@
 									<th scope="col">Total Price</th>
 									<th scope="col"></th>
 									<th scope="col"></th>
+									<th scope="col"></th>
+									<th scope="col"></th>
+									
 									<th scope="col"><%=totalPrice%></th>
 								</tr>
 

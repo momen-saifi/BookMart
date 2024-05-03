@@ -11,8 +11,31 @@ public class User {
 	private String city;
 	private String state;
 	private String pincode;
+	private String code;
+	private String userType;
 	
 	
+
+	public User(String name, String email, String code) {
+		super();
+		this.name = name;
+		this.email = email;
+		this.code = code;
+	}
+	public User(String name, String email, String password, String phno, String code) {
+		super();
+		this.name = name;
+		this.email = email;
+		this.password = password;
+		this.phno = phno;
+		this.code = code;
+	}
+	public String getCode() {
+		return code;
+	}
+	public void setCode(String code) {
+		this.code = code;
+	}
 	public User() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -78,6 +101,13 @@ public class User {
 	}
 	public void setPincode(String pincode) {
 		this.pincode = pincode;
+	}
+	
+	public String getUserType() {
+		return userType;
+	}
+	public void setUserType(String userType) {
+		this.userType = userType;
 	}
 	@Override
 	public String toString() {

@@ -31,10 +31,12 @@ public class BooksAdd extends HttpServlet {
 			String price = req.getParameter("price");
 			String categories = req.getParameter("categories");
 			String status = req.getParameter("status");
+			
 			Part part = req.getPart("bimg");
 			String fileName = part.getSubmittedFileName();
+			int quantity=Integer.parseInt(req.getParameter("quantity"));
 
-			BookDtls b = new BookDtls(bookName, author, price, categories, status, fileName, "admin");
+			BookDtls b = new BookDtls(bookName, author, price, categories, status, fileName, "admin",quantity);
 			
 			BookDAOImpl dao=new BookDAOImpl(DBConnect.getConn());
 			

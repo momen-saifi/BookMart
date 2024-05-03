@@ -121,14 +121,41 @@ to {
 
 							<a href="login.jsp" class="btn btn-danger btn-sm ml-2"><i
 								class="fas fa-cart-plus"></i>Add Cart</a>
+								<a href="login.jsp" class="btn btn-danger btn-sm ml-2"><i
+								class="fas fa-cart-plus"></i>Add WishList</a>
+								
 
 							<%
 							} else {
 							%>
 
+							<%
+							if (b.getQuantity() == 0) {
+							%>
+							<a href="cart?bid=<%=b.getBookId()%>&&uid=<%=u.getId()%>"
+								class="btn btn-secondary btn-sm ml-2 disabled"> <i
+								class="fas fa-cart-plus"></i> Sold Out
+							</a>
+
+
+							<%
+							} else {
+							%>
+
+
 							<a href="cart?bid=<%=b.getBookId()%>&&uid=<%=u.getId()%>"
 								class="btn btn-danger btn-sm ml-2"><i
 								class="fas fa-cart-plus"></i>Add Cart</a>
+
+							<%
+							}
+							%>
+
+
+								
+							<a href="wish_list?bid=<%=b.getBookId()%>&&uid=<%=u.getId()%>"
+								class="btn btn-danger btn-sm ml-2"><i
+								class="fas fa-cart-plus"></i>Add WishList</a>
 
 							<%
 							}

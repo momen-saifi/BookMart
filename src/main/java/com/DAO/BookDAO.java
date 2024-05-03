@@ -33,4 +33,8 @@ public interface BookDAO {
 	public boolean oldBookDelete(String email,String category,int bid);
 	
 	public List<BookDtls> getBookBySearch(String ch);
+	
+	public boolean updateQuantity(int uid);
+	
+	public int getQuantityByBookId(int bookId);
 }

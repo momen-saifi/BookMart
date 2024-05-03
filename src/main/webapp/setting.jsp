@@ -81,7 +81,27 @@ a:hover {
 				</a>
 
 			</div>
-			
+
+
+			<!-- wishList start -->
+			<div class="col-md-6 mt-3"">
+				<a href="wishlist.jsp">
+					<div class="card">
+						<div class="card-body text-center">
+							<div class="text-primary ">
+								<i class="fas fa-user-circle fa-3x"></i>
+							</div>
+							<h4>WishList</h4>
+
+
+						</div>
+					</div>
+
+				</a>
+
+			</div>
+
+			<!-- wishList end -->
 			<div class="col-md-6 mt-3"">
 				<a href="order.jsp">
 					<div class="card">

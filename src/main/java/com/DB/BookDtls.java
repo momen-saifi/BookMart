@@ -9,10 +9,12 @@ public class BookDtls {
 	private String status;
 	private String photoName;
 	private String email;
+	private int quantity;
 	
 	public BookDtls() {
 		// TODO Auto-generated constructor stub
 	}
+	
 	public BookDtls(String bookName, String author, String price, String bookCategory, String status, String photoName,
 			String email) {
 		super();
@@ -23,6 +25,20 @@ public class BookDtls {
 		this.status = status;
 		this.photoName = photoName;
 		this.email = email;
+		
+	}
+	
+	public BookDtls(String bookName, String author, String price, String bookCategory, String status, String photoName,
+			String email,int quantity) {
+		super();
+		this.bookName = bookName;
+		this.author = author;
+		this.price = price;
+		this.bookCategory = bookCategory;
+		this.status = status;
+		this.photoName = photoName;
+		this.email = email;
+		this.quantity=quantity;
 	}
 	
 	
@@ -75,6 +91,13 @@ public class BookDtls {
 	}
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	
+	public int getQuantity() {
+		return quantity;
+	}
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
 	}
 	@Override
 	public String toString() {

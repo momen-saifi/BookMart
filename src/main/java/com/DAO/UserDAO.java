@@ -13,5 +13,8 @@ public interface UserDAO {
 	public boolean upadteProfile(User us);
 	
 	public boolean checkUser(String email);
+	
+	public boolean changePassword(String email,String password);
+	
 
 }

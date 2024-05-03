@@ -67,6 +67,7 @@ a:hover {
 						</div>
 				</div>
 				</a>
+
 			</div>
 
 			<div class="col-md-3">

@@ -24,6 +24,7 @@ public class EditBooksServlet extends HttpServlet {
 			String bookName = req.getParameter("bname");
 			String author = req.getParameter("author");
 			String price = req.getParameter("price");
+			int quantity= Integer.parseInt(req.getParameter("quantity"));
 			String status = req.getParameter("status");
 			
 			
@@ -32,6 +33,7 @@ public class EditBooksServlet extends HttpServlet {
 			b.setBookName(bookName);
 			b.setAuthor(author);
 			b.setPrice(price);
+			b.setQuantity(quantity);
 			b.setStatus(status);
 		
 			BookDAOImpl dao=new BookDAOImpl(DBConnect.getConn());

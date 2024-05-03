@@ -13,10 +13,11 @@ import com.DAO.UserDAOImpl;
 import com.DB.DBConnect;
 import com.entity.User;
 
+import res.SendEmail;
+
 @WebServlet("/register")
 public class RegisterServlet extends HttpServlet {
 
-	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
 		try {
@@ -26,8 +27,6 @@ public class RegisterServlet extends HttpServlet {
 			String phno = req.getParameter("phno");
 			String password = req.getParameter("password");
 			String check = req.getParameter("check");
-
-			// System.out.println(name+" "+email+" "+phno+" "+password+" "+check);
 
 			User us = new User();
 			us.setName(name);
@@ -42,37 +41,32 @@ public class RegisterServlet extends HttpServlet {
 				UserDAOImpl dao = new UserDAOImpl(DBConnect.getConn());
 				boolean f2 = dao.checkUser(email);
 				if (f2) {
-					boolean f = dao.userRegister(us);
-					if (f) {
-						// System.out.println("User Register Success..");
+					SendEmail sm = new SendEmail();
+					String code = sm.getRandom();
 
-						session.setAttribute("succMsg", "Registration Successfully..");
-						resp.sendRedirect("register.jsp");
-					} else {
-						// System.out.println("Something wrong on server..");
+					User user = new User(name, email, code);
 
-						session.setAttribute("failedMsg", "Something wrong on server..");
-						resp.sendRedirect("register.jsp");
+					boolean test = sm.sendEmail(user);
 
+					if (test) {
+						session.setAttribute("authcode", user);
+						session.setAttribute("userdata", us);
+						resp.sendRedirect("verify.jsp");
 					}
-
+					else {
+						session.setAttribute("failedMsg", "Email is not sended");
+						resp.sendRedirect("register.jsp");
+					}
 				} else {
-
 					session.setAttribute("failedMsg", "User Already Exist Try Another Email Id");
 					resp.sendRedirect("register.jsp");
-
 				}
 			} else {
-				// System.out.println("Please Check and Agree & Term Condition");
-
 				session.setAttribute("failedMsg", "Please Check and Agree & Term Condition");
 				resp.sendRedirect("register.jsp");
-
 			}
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-
 }

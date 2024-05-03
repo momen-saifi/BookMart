@@ -29,10 +29,10 @@
 		<div class="row p-3">
 
 			<%
-				BookDAOImpl dao2 = new BookDAOImpl(DBConnect.getConn());
+			BookDAOImpl dao2 = new BookDAOImpl(DBConnect.getConn());
 
-				List<BookDtls> list2 = dao2.getAllRecentBook();
-				for (BookDtls b : list2) {
+			List<BookDtls> list2 = dao2.getAllRecentBook();
+			for (BookDtls b : list2) {
 			%>
 
 
@@ -45,7 +45,7 @@
 						<p><%=b.getAuthor()%></p>
 						<p>
 							<%
-								if (b.getBookCategory().equals("Old")) {
+							if (b.getBookCategory().equals("Old")) {
 							%>
 							Categories:<%=b.getBookCategory()%></p>
 						<div class="row ">
@@ -56,9 +56,9 @@
 						</div>
 
 						<%
-							}
+						}
 
-								else {
+						else {
 						%>
 						Categories:<%=b.getBookCategory()%></p>
 						<div class="row ">
@@ -72,28 +72,50 @@
 							<%
 							} else {
 							%>
+							<%
+							if (b.getQuantity() == 0) {
+								
+							%>
+							
+							<a href="cart?bid=<%=b.getBookId()%>&&uid=<%=u.getId()%>"
+								class="btn btn-secondary btn-sm ml-2 disabled"> <i
+								class="fas fa-cart-plus"></i> Sold Out
+							</a>
+
+
+							<%
+							} else {
+							%>
+
+
 							<a href="cart?bid=<%=b.getBookId()%>&&uid=<%=u.getId()%>"
 								class="btn btn-danger btn-sm ml-2"><i
 								class="fas fa-cart-plus"></i>Add Cart</a>
 
 							<%
-							}%>
-								
-								<a href="view_books.jsp?bid=<%=b.getBookId()%>" class="btn
-							btn-success btn-sm ml-1">View Details</a>
-							 <a href=""
-								class="btn btn-danger btn-sm"><%=b.getPrice()%><i
+							}
+							%>
+
+
+							<%
+							}
+							%>
+
+							<a href="view_books.jsp?bid=<%=b.getBookId()%>"
+								class="btn
+							btn-success btn-sm ml-1">View Details</a> <a
+								href="" class="btn btn-danger btn-sm"><%=b.getPrice()%><i
 								class="fas fa-rupee-sign"></i></a>
 						</div>
 						<%
-							}
+						}
 						%>
 					</div>
 				</div>
 			</div>
 
 			<%
-				}
+			}
 			%>
 
 
