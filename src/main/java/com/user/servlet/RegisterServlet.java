@@ -11,9 +11,10 @@ import javax.servlet.http.HttpSession;
 
 import com.DAO.UserDAOImpl;
 import com.DB.DBConnect;
+import com.entity.SendEmail;
 import com.entity.User;
 
-import res.SendEmail;
+
 
 @WebServlet("/register")
 public class RegisterServlet extends HttpServlet {
@@ -28,12 +29,12 @@ public class RegisterServlet extends HttpServlet {
 			String password = req.getParameter("password");
 			String check = req.getParameter("check");
 
-			User us = new User();
-			us.setName(name);
-			us.setEmail(email);
-			us.setPhno(phno);
-			us.setPassword(password);
-
+			User user = new User();
+			user.setName(name);
+			user.setEmail(email);
+			user.setPhno(phno);
+			user.setPassword(password);
+			//System.out.print(phno);
 			HttpSession session = req.getSession();
 
 			if (check != null) {
@@ -44,16 +45,17 @@ public class RegisterServlet extends HttpServlet {
 					SendEmail sm = new SendEmail();
 					String code = sm.getRandom();
 
-					User user = new User(name, email, code);
+					User cod = new User(name, email, code);
 
-					boolean test = sm.sendEmail(user);
+					String message = "Registration successful. Please verify your account using this code: " + code
+							+ ".";
+					boolean test = sm.sendEmail(message, cod);
 
 					if (test) {
-						session.setAttribute("authcode", user);
-						session.setAttribute("userdata", us);
+						session.setAttribute("usercod", cod);
+						session.setAttribute("userdata", user);
 						resp.sendRedirect("verify.jsp");
-					}
-					else {
+					} else {
 						session.setAttribute("failedMsg", "Email is not sended");
 						resp.sendRedirect("register.jsp");
 					}

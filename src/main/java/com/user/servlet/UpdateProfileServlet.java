@@ -19,29 +19,58 @@ public class UpdateProfileServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		try {
+			
 			int id = Integer.parseInt(req.getParameter("id"));
 			String name = req.getParameter("fname");
 			String email = req.getParameter("email");
 			String phno = req.getParameter("phno");
+			
 			String password = req.getParameter("password");
-			//System.out.println(id+" "+name+ " "+email+" "+phno+" "+password);
+			
+			HttpSession session = req.getSession();
+		
+			User u = (User) session.getAttribute("userobj");
+			
+			String userType = req.getParameter("user_type");
+			
+			if(password==null) {
+				password=u.getPassword();
+			}
+			System.out.println(id+" "+name+ " "+email+" "+phno+" "+password);
 
 			User us = new User();
 			us.setName(name);
-			us.setEmail(email);
+			us.setPassword(password);
 			us.setPhno(phno);
 			us.setId(id);
-			HttpSession session = req.getSession();
+			
 			UserDAOImpl dao = new UserDAOImpl(DBConnect.getConn());
-			boolean f = dao.checkPassword(id, password);
-			if (f) {
+			boolean f = dao.checkUser(email);
+			if (!f) {
 				boolean f2 = dao.upadteProfile(us);
-				if (f2) {
-					session.setAttribute("succMsg", "User Profile Update Successfully");
-					resp.sendRedirect("edit_profile.jsp");
+				if (f2 ) {
+					u.setName(name);
+					u.setEmail(email);
+					u.setPhno(phno);
+					u.setPassword(password);
+					if(userType.equals("admin")) {
+						session.setAttribute("succMsg", "User Profile Update Successfully");
+						resp.sendRedirect("admin/edit_profile.jsp");
+						
+					}else {
+						session.setAttribute("succMsg", "User Profile Update Successfully");
+						resp.sendRedirect("edit_profile.jsp");
+					}
+				
 				} else {
-					session.setAttribute("failedMsg", "Somethig wrong on server");
-					resp.sendRedirect("edit_profile.jsp");
+					if(userType.equals("admin")) {
+						session.setAttribute("failedMsg", "Somethig wrong on server");
+						resp.sendRedirect("admin/edit_profile.jsp");
+					}else {
+						session.setAttribute("failedMsg", "Somethig wrong on server");
+						resp.sendRedirect("edit_profile.jsp");
+					}
+					
 				}
 			} else {
 				session.setAttribute("failedMsg", "Your Password is Incorrect");

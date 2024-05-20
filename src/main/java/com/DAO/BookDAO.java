@@ -37,4 +37,6 @@ public interface BookDAO {
 	public boolean updateQuantity(int uid);
 	
 	public int getQuantityByBookId(int bookId);
+	
+	
 }

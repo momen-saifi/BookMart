@@ -21,16 +21,12 @@ public class CartServlet extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
 		try {
-
 			int bid = Integer.parseInt(req.getParameter("bid"));
-
 			int uid = Integer.parseInt(req.getParameter("uid"));
-
 			String location = req.getParameter("loc");
-			if(location==null) {
-				location="notcart";
+			if (location == null) {
+				location = "notcart";
 			}
 
 			BookDAOImpl dao = new BookDAOImpl(DBConnect.getConn());
@@ -45,23 +41,14 @@ public class CartServlet extends HttpServlet {
 			if (flag) {
 				int cartQuantity = dao2.getQuantityByBUId(uid, bid);
 				if (isAvailableBook > cartQuantity) {
-					System.out.println(isAvailableBook + " " + cartQuantity);
 					f = dao2.updatePieceCountByBUId(uid, bid);
-					System.out.println(" Added");
-
+					session.setAttribute("succMsg", "Book quantity updated in cart successfully");
 				} else {
-					session.setAttribute("failedMsg", "Your Out Of Stock");
-					if (location.equals("cart")) {
-						resp.sendRedirect("checkout.jsp");
-						System.out.println("Not Added");
-					} else {
-						resp.sendRedirect("all_new_book.jsp");
-						System.out.println("Not Added");
-					}
-
+					session.setAttribute("failedMsg",
+							"The requested quantity is not available at the moment. Please choose a lower quantity or check back later");
+					redirectToLocation(location, resp);
 					return;
 				}
-
 			} else {
 				BookDtls b = dao.getBookById(bid);
 
@@ -74,30 +61,34 @@ public class CartServlet extends HttpServlet {
 				c.setTotal_price(Double.parseDouble(b.getPrice()));
 
 				f = dao2.addCart(c);
-
 			}
 
 			if (f) {
 				session.setAttribute("addCart", "Book Added to cart");
-				if (location.equals("cart")) {
+				if ("cart".equals(location)) {
 					resp.sendRedirect("checkout.jsp");
+				} else if ("wishlist".equals(location)) {
+					resp.sendRedirect("wishlist.jsp");
 				} else {
 					resp.sendRedirect("all_new_book.jsp");
 				}
-
 			} else {
-				session.setAttribute("failed", "Somthing Wrong on server");
-				if (location.equals("cart")) {
-					resp.sendRedirect("checkout.jsp");
-				} else {
-					resp.sendRedirect("all_new_book.jsp");
-				}
+				session.setAttribute("failedMsg", "Something went wrong on the server");
+				redirectToLocation(location, resp);
 			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
+	private void redirectToLocation(String location, HttpServletResponse resp) throws IOException {
+		if ("cart".equals(location)) {
+			resp.sendRedirect("checkout.jsp");
+		} else if ("wishlist".equals(location)) {
+			resp.sendRedirect("wishlist.jsp");
+		} else {
+			resp.sendRedirect("all_new_book.jsp");
+		}
+	}
 }

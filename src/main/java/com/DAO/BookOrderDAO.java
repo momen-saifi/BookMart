@@ -12,7 +12,9 @@ public interface BookOrderDAO {
 	public boolean saveOrder(List<Book_Order> b);
 
 	public List<Book_Order> getBook(String email);
-	
+
+	public List<Book_Order> getBookByOrderId(String order_id );
+
 	public List<Book_Order> getAllOrder();
 	public List<Book_Order> getNewOrder();
 	
@@ -33,7 +35,11 @@ public interface BookOrderDAO {
 	
 	public boolean orderShipping(String oid);
 	
+	public List<Book_Order> getNewOrderDetails(String order_id);
 	
+	public List<Book_Order> getDispatchedOrderDetails(String order_id);
 	
+	public List<Book_Order> getShippedOrderDetails(String order_id);
 	
+	public List<Book_Order> getCancelOrderDetails(String order_id);
 }

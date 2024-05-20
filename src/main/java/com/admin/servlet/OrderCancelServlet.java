@@ -33,12 +33,12 @@ public class OrderCancelServlet extends HttpServlet {
 			if (f) {
 
 				session.setAttribute("succMsg", "Order Cancled Successfully");
-				resp.sendRedirect("admin/orders.jsp");
+				resp.sendRedirect("admin/canceled_order.jsp");
 				System.out.print("Cancel ");
 			} else {
 
 				session.setAttribute("failedMsg", "Something wrong on server");
-				resp.sendRedirect("admin/orders.jsp");
+				resp.sendRedirect("admin/canceled_order.jsp");
 				System.out.print("Wrong");
 			}
 

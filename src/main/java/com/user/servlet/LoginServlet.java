@@ -27,22 +27,23 @@ public class LoginServlet extends HttpServlet {
 
 			String email = req.getParameter("email");
 			String password = req.getParameter("password");
-			
-		
 
 			// System.out.println(email+" "+password);
 			User us = dao.login(email, password);
-			if (us!=null && us.getUserType().equals("admin")) {
+			if (us != null && us.getStatus().equals("Block")) {
+				session.setAttribute("failedMsg", "Your Account is Blocked by Admin");
+				resp.sendRedirect("login.jsp");
+				return ;
+			} 
+			if (us != null && us.getUserType().equals("admin")) {
 
 //				User us = new User();
-				//us.setName("Admin");
+				// us.setName("Admin");
 
 				session.setAttribute("userobj", us);
 
 				resp.sendRedirect("admin/home.jsp");
 			} else {
-
-				
 
 				if (us != null) {
 					session.setAttribute("userobj", us);

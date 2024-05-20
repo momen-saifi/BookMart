@@ -43,43 +43,44 @@ public class WishListDAOImpl {
 
 		return f;
 	}
-
 	public List<WishList> getBookByUser(int userId) {
-		List<WishList> list = new ArrayList<WishList>();
-		WishList w = null;
-		double totalPrice = 0;
-		try {
-
-			String sql = "select * from wish_list where uid=?";
-
-			PreparedStatement ps = conn.prepareStatement(sql);
-
-			ps.setInt(1, userId);
-
-			ResultSet rs = ps.executeQuery();
-
-			while (rs.next()) {
-				w = new WishList();
-				w.setWid(rs.getInt(1));
-				w.setBid(rs.getInt(2));
-				w.setUserId(rs.getInt(3));
-				w.setBookName(rs.getString(4));
-				w.setAuthor(rs.getString(5));
-				w.setPrice(rs.getDouble(6));
-				w.setDate(rs.getTimestamp(7));
-				w.setPhotoName(rs.getString(8));
-
-				list.add(w);
-				System.out.println(w.getWid() + " " + w.getBid() + " " + w.getUserId());
-			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return list;
+	    List<WishList> list = new ArrayList<WishList>();
+	    WishList w = null;
+	    
+	    try {
+	        String sql = "SELECT w.*, bd.quantity " +
+	                     "FROM wish_list w " +
+	                     "INNER JOIN book_dtls bd ON w.bid = bd.bookId " +
+	                     "WHERE w.uid = ?";
+	        
+	        PreparedStatement ps = conn.prepareStatement(sql);
+	        ps.setInt(1, userId);
+	        
+	        ResultSet rs = ps.executeQuery();
+	        
+	        while (rs.next()) {
+	            w = new WishList();
+	            w.setWid(rs.getInt(1));
+	            w.setBid(rs.getInt(2));
+	            w.setUserId(rs.getInt(3));
+	            w.setBookName(rs.getString(4));
+	            w.setAuthor(rs.getString(5));
+	            w.setPrice(rs.getDouble(6));
+	            w.setDate(rs.getTimestamp(7));
+	            w.setPhotoName(rs.getString(8));
+	            w.setQuantity(rs.getInt("quantity")); // Set the quantity
+	            list.add(w);
+	            System.out.println(w.getWid() + " " + w.getBid() + " " + w.getUserId());
+	        }
+	        
+	        rs.close();
+	        ps.close();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    
+	    return list;
 	}
-
 	public boolean deleteBook(int bid, int uid, int wid) {
 		boolean f = false;
 		try {
@@ -151,5 +152,31 @@ public class WishListDAOImpl {
 
         return isBookInWishlist;
     }
+	
+	
+	public int getBookCountByUser(int userId) {
+		int count = 0;
+		try {
+
+			String sql = "SELECT count(*) AS total FROM wish_list WHERE uid = ?";
+
+			PreparedStatement ps = conn.prepareStatement(sql);
+
+			ps.setInt(1, userId);
+
+			ResultSet rs = ps.executeQuery();
+
+			if (rs.next()) {
+				count = rs.getInt(1);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return count;
+
+	}
+
 }
 

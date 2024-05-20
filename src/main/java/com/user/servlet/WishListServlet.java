@@ -24,6 +24,8 @@ public class WishListServlet extends HttpServlet {
         try {
             int bid = Integer.parseInt(req.getParameter("bid"));
             int uid = Integer.parseInt(req.getParameter("uid"));
+            
+            
 
             // Check if the book is already in the wishlist for the user
             WishListDAOImpl wishListDAO = new WishListDAOImpl(DBConnect.getConn());

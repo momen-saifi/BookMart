@@ -414,6 +414,7 @@ public class BookDAOImpl implements BookDAO {
 				b.setStatus(rs.getString(6));
 				b.setPhotoName(rs.getString(7));
 				b.setEmail(rs.getString(8));
+				b.setQuantity(rs.getInt("quantity"));
 
 				list.add(b);
 			}
@@ -476,6 +477,7 @@ public class BookDAOImpl implements BookDAO {
 				b.setStatus(rs.getString(6));
 				b.setPhotoName(rs.getString(7));
 				b.setEmail(rs.getString(8));
+				b.setQuantity(rs.getInt(9));
 
 				list.add(b);
 

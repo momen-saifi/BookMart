@@ -11,11 +11,13 @@ public class WishList {
 	private double price;
 	private Timestamp date;
 	private String photoName;
+	private int quantity;
+
+
 
 	public WishList() {
 		super();
-		
-	
+
 	}
 
 	public WishList(int bid, int userId, String bookName, String author, double price, String photoName) {
@@ -104,8 +106,13 @@ public class WishList {
 	public void setPhotoName(String photoName) {
 		this.photoName = photoName;
 	}
+	
+	public int getQuantity() {
+		return quantity;
+	}
 
-
-
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
 
 }

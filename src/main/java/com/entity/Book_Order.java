@@ -1,9 +1,14 @@
 package com.entity;
 
+import java.sql.Timestamp;
+
 public class Book_Order {
 
 	private int id;
+
 	private String orderId;
+	private int bid;
+
 	private String userName;
 	private String email;
 	private String phno;
@@ -11,60 +16,37 @@ public class Book_Order {
 	private String bookName;
 	private String author;
 	private String price;
+	private String totalPrice;
 	private String paymentType;
 	private String address;
-	private String Landmark;	
+	private String Landmark;
 	private String city;
 	private String state;
 	private String pincode;
-	
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	public String getLandmark() {
-		return Landmark;
-	}
-
-	public void setLandmark(String landmark) {
-		Landmark = landmark;
-	}
-
-	public String getCity() {
-		return city;
-	}
-
-	public void setCity(String city) {
-		this.city = city;
-	}
-
-	public String getState() {
-		return state;
-	}
-
-	public void setState(String state) {
-		this.state = state;
-	}
-
-	public String getPincode() {
-		return pincode;
-	}
-
-	public void setPincode(String pincode) {
-		this.pincode = pincode;
-	}
+	private Timestamp date;
+	private Timestamp cancleDate;
+	private Timestamp dispatcheDate;
+	private Timestamp shipDate;
 
 	public boolean dispatched;
-	public boolean shiped;
+	public boolean shipped;
 	public boolean cancel;
 	private int quantity;
 
-	public Book_Order() {
-		super();
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public int getBid() {
+		return bid;
+	}
+
+	public void setBid(int bid) {
+		this.bid = bid;
 	}
 
 	public String getOrderId() {
@@ -73,14 +55,6 @@ public class Book_Order {
 
 	public void setOrderId(String orderId) {
 		this.orderId = orderId;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
 	}
 
 	public String getUserName() {
@@ -147,6 +121,54 @@ public class Book_Order {
 		this.paymentType = paymentType;
 	}
 
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getLandmark() {
+		return Landmark;
+	}
+
+	public void setLandmark(String landmark) {
+		Landmark = landmark;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public String getPincode() {
+		return pincode;
+	}
+
+	public void setPincode(String pincode) {
+		this.pincode = pincode;
+	}
+
+	public Timestamp getDate() {
+		return date;
+	}
+
+	public void setDate(Timestamp date) {
+		this.date = date;
+	}
+
 	public boolean isDispatched() {
 		return dispatched;
 	}
@@ -155,20 +177,20 @@ public class Book_Order {
 		this.dispatched = dispatched;
 	}
 
-	public boolean isShiped() {
-		return shiped;
+	public boolean isShipped() {
+		return shipped;
 	}
 
-	public void setShiped(boolean shiped) {
-		this.shiped = shiped;
+	public void setShipped(boolean shipped) {
+		this.shipped = shipped;
 	}
 
 	public boolean isCancel() {
 		return cancel;
 	}
 
-	public void setCancel(boolean cancel) {
-		this.cancel = cancel;
+	public void setCancle(boolean cancle) {
+		this.cancel = cancle;
 	}
 
 	public int getQuantity() {
@@ -177,6 +199,42 @@ public class Book_Order {
 
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
+	}
+
+	public String getTotalPrice() {
+		return totalPrice;
+	}
+
+	public void setTotalPrice(String totalPrice) {
+		this.totalPrice = totalPrice;
+	}
+
+	public Timestamp getCancleDate() {
+		return cancleDate;
+	}
+
+	public void setCancleDate(Timestamp cancleDate) {
+		this.cancleDate = cancleDate;
+	}
+
+	public Timestamp getDispatcheDate() {
+		return dispatcheDate;
+	}
+
+	public void setDispatcheDate(Timestamp dispatcheDate) {
+		this.dispatcheDate = dispatcheDate;
+	}
+
+	public Timestamp getShipDate() {
+		return shipDate;
+	}
+
+	public void setShipDate(Timestamp shipDate) {
+		this.shipDate = shipDate;
+	}
+
+	public void setCancel(boolean cancel) {
+		this.cancel = cancel;
 	}
 
 	@Override

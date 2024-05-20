@@ -30,12 +30,12 @@ public class OrderShiped extends HttpServlet {
 			HttpSession session=req.getSession();
 			if(f) {
 					session.setAttribute("succMsg", "Order Dispatched Successfully..");
-					resp.sendRedirect("admin/orders.jsp");
+					resp.sendRedirect("admin/shipped_order.jsp");
 					System.out.print("Order Shiped");
 			}else {
 				
 				session.setAttribute("filedMsg", "Something wrong on server");
-				resp.sendRedirect("admin/orders.jsp");
+				resp.sendRedirect("admin/shipped_order.jsp");
 			}
 			
 		} catch (Exception e) {

@@ -49,7 +49,7 @@ public class CartDAOImpl implements CartDAO {
 		double totalPrice = 0;
 		try {
 
-			String sql = "select * from cart where uid=?";
+			String sql = "select *  from cart where uid=?";
 
 			PreparedStatement ps = conn.prepareStatement(sql);
 
@@ -66,7 +66,7 @@ public class CartDAOImpl implements CartDAO {
 				c.setAuthor(rs.getString(5));
 				c.setPrice(rs.getDouble(6));
 				c.setQuantity(rs.getInt(8));
-				totalPrice += rs.getDouble(7)*rs.getInt(8);
+				totalPrice += rs.getDouble(7);
 				
 				
 				c.setTotal_price(totalPrice);
@@ -199,7 +199,7 @@ public class CartDAOImpl implements CartDAO {
 
 		try {
 
-			String sql = "UPDATE cart SET piece_count = piece_count+1 WHERE uid = ? AND bid = ?";
+			String sql = "UPDATE cart SET piece_count = piece_count+1 ,total_price=total_price+price WHERE uid = ? AND bid = ?";
 			ps = conn.prepareStatement(sql);
 
 			ps.setInt(1, userId);
@@ -244,7 +244,7 @@ public class CartDAOImpl implements CartDAO {
 		boolean f = false;
 		try {
 
-			 String sql = "UPDATE cart SET piece_count = piece_count - 1 WHERE bid = ? AND uid = ? AND piece_count > 0";
+			 String sql = "UPDATE cart SET piece_count = piece_count - 1 ,total_price=total_price-price WHERE bid = ? AND uid = ? AND piece_count > 0";
 		        PreparedStatement ps = conn.prepareStatement(sql);
 		        ps.setInt(1, bid);
 		        ps.setInt(2, userId);

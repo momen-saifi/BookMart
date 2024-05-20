@@ -12,41 +12,37 @@ import com.DAO.UserDAOImpl;
 import com.DB.DBConnect;
 import com.entity.User;
 
-import res.SendEmail;
+
 
 @WebServlet("/forgot_password")
 public class ForgotPassword extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-		try {
+        try {
+            String email = req.getParameter("email");
+            String password = req.getParameter("password");
 
-			String email = req.getParameter("email");
+            User user = new User();
+            user.setEmail(email);
+            user.setPassword(password);
 
-			String password = req.getParameter("password");
+            HttpSession session = req.getSession();
 
-			User us = new User();
-			us.setEmail(email);
-			us.setPassword(password);
+            UserDAOImpl dao = new UserDAOImpl(DBConnect.getConn());
+            boolean isPasswordChanged = dao.changePassword(email, password);
 
-			HttpSession session = req.getSession();
+            if (isPasswordChanged) {
+                session.setAttribute("succMsg", "Password updated successfully.");
+                resp.sendRedirect("login.jsp");
+            } else {
+                session.setAttribute("errorMsg", "Failed to update password. Please try again.");
+                resp.sendRedirect("forgot_pass.jsp");
+            }
 
-			UserDAOImpl dao = new UserDAOImpl(DBConnect.getConn());
-			
-			boolean f=dao.changePassword(email, password);
-			
-			
-			if (f) {
-				session.setAttribute("succMsg", "Updated Successfully..");
-				resp.sendRedirect("register.jsp");
-			} else {
-				session.setAttribute("failedMsg", "User Already Exist Try Another Email Id");
-				resp.sendRedirect("register.jsp");
-			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

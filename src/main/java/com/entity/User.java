@@ -13,6 +13,7 @@ public class User {
 	private String pincode;
 	private String code;
 	private String userType;
+	private String status;
 	
 	
 
@@ -108,6 +109,13 @@ public class User {
 	}
 	public void setUserType(String userType) {
 		this.userType = userType;
+	}
+	
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
 	}
 	@Override
 	public String toString() {

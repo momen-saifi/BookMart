@@ -35,14 +35,19 @@ public class BooksAdd extends HttpServlet {
 			Part part = req.getPart("bimg");
 			String fileName = part.getSubmittedFileName();
 			int quantity=Integer.parseInt(req.getParameter("quantity"));
+			
+			
+			HttpSession session=req.getSession();
+			
+			User user=(User)session.getAttribute("userobj");
+			String email=user.getEmail();
 
-			BookDtls b = new BookDtls(bookName, author, price, categories, status, fileName, "admin",quantity);
+			BookDtls b = new BookDtls(bookName, author, price, categories, status, fileName,email ,quantity);
 			
 			BookDAOImpl dao=new BookDAOImpl(DBConnect.getConn());
 			
 			boolean f=dao.addBooks(b);
-			
-			HttpSession session=req.getSession();
+		
 			
 			if(f)
 			{

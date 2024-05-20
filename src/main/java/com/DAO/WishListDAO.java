@@ -14,5 +14,7 @@ public interface WishListDAO {
 	public boolean deleteBookByUser(int userId);
 	
 	public boolean isBookInWishlist(int bid, int uid);
+	
+	public int getBookCountByUser(int userId);
 
 }

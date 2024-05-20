@@ -29,7 +29,7 @@ public class RemoveBookWishList extends HttpServlet {
 		HttpSession session = req.getSession();
 
 		if (f) {
-			session.setAttribute("succMsg", "Bookk Removed from WishList");
+			session.setAttribute("succMsg", "Book Removed from WishList");
 			resp.sendRedirect("wishlist.jsp");
 		} else {
 			session.setAttribute("failedMsg", "Something wrong on server");

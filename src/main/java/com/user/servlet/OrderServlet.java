@@ -39,13 +39,15 @@ public class OrderServlet extends HttpServlet {
 			String pincode = req.getParameter("pincode");
 			String paymentType = req.getParameter("payment");
 			System.out.print("pay" + paymentType);
-			String fullAdd = address + "," + landmark + "," + city + "," + state + "," + pincode;
+			//String fullAdd = address + "," + landmark + "," + city + "," + state + "," + pincode;
 
 			// System.out.println(name+" "+email+" "+phno+" "+fullAdd+" "+paymentType);
 
 			CartDAOImpl dao = new CartDAOImpl(DBConnect.getConn());
 
 			List<Cart> blist = dao.getBookByUser(id);
+			
+			
 
 			if (blist.isEmpty()) {
 				session.setAttribute("failedMsg", "Add Item");
@@ -56,13 +58,15 @@ public class OrderServlet extends HttpServlet {
 
 				Book_Order o = null;
 				ArrayList<Book_Order> orderList = new ArrayList<Book_Order>();
-
+						String order_id="BOOK-ORD-00" + i;
+						double totalPrice=0.0;
 				for (Cart c : blist) {
 					// System.out.println(c.getBookName()+" "+c.getAuthor()+ ""+c.getPrice());
 					i++;
 					o = new Book_Order();
-					o.setOrderId("BOOK-ORD-00" + i);
-					System.out.println("BOOK-ORD-00" + i);
+					o.setOrderId(order_id);
+					o.setBid(c.getBid());
+					//System.out.println("BOOK-ORD-00" + i);
 					o.setUserName(name);
 					o.setEmail(email);
 					o.setPhno(phno);
@@ -71,10 +75,12 @@ public class OrderServlet extends HttpServlet {
 					o.setCity(city);
 					o.setState(state);
 					o.setPincode(pincode);
-					o.setFulladd(fullAdd);
+					
 					o.setBookName(c.getBookName());
 					o.setAuthor(c.getAuthor());
-					o.setPrice(c.getTotal_price() + "");
+					o.setPrice(c.getPrice()+"");
+					
+					o.setTotalPrice(c.getTotal_price() + "");
 					o.setPaymentType(paymentType);
 					o.setQuantity(c.getQuantity());
 					orderList.add(o);
@@ -103,13 +109,13 @@ public class OrderServlet extends HttpServlet {
 
 							System.out.println("Ordder Success");
 						} else {
-							session.setAttribute("failedMsg", "Your Order failed");
+							session.setAttribute("failedMsg", "Your order could not be processed at the moment. Please try again later.");
 							resp.sendRedirect("checkout.jsp");
 							// System.out.println("Order failed");
 						}
 					} else {
 
-						session.setAttribute("failedMsg", "Your Out Of Stock");
+						session.setAttribute("failedMsg", "The requested quantity is not available at the moment. Please choose a lower quantity or check back later.");
 						resp.sendRedirect("checkout.jsp");
 					}
 

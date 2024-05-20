@@ -29,7 +29,7 @@ public class RemoveBookCart extends HttpServlet {
 		
 		
 		boolean f=false;
-		if(pic.equals("all") ||quantity==1){
+		if(pic.equals("all") || quantity==1){
 			f = dao.deleteBook(bid, uid, cid);
 		}
 		else {
@@ -40,6 +40,7 @@ public class RemoveBookCart extends HttpServlet {
 		HttpSession session = req.getSession();
 
 		if (f) {
+			
 			session.setAttribute("succMsg", "Book Removed from cart");
 			resp.sendRedirect("checkout.jsp");
 		} else {
