@@ -5,6 +5,7 @@
 <%@page import="com.DB.DBConnect"%>
 <%@page import="com.DAO.BookDAOImpl"%>
 <%@page import="com.DB.BookDtls"%>
+<%@page errorPage="error_page.jsp"%>
 
 <!DOCTYPE html>
 <html>
@@ -14,6 +15,9 @@
 <%@include file="allCss.jsp"%>
 </head>
 <body style="background-color: #f0f2f2">
+    <c:if test="${empty userobj}">
+        <c:redirect url="../login.jsp"></c:redirect>
+    </c:if>
 	<%@include file="navbar.jsp"%>
 	<div class="container">
 		<div class="row">

@@ -1,8 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page isELIgnored="false"%>
-
 <%@ page import="com.DAO.BookOrderImpl"%>
 <%@ page import="com.DB.DBConnect"%>
 <%@ page import="java.util.*"%>
@@ -15,20 +12,8 @@
     <title>Admin: All Orders</title>
     <%@include file="allCss.jsp"%>
     <style>
-        .bg-primary {
-            background-color: #007bff !important;
-        }
-        .text-white {
-            color: #ffffff !important;
-        }
-        .table-striped tbody tr:nth-child(odd) {
-            background-color: #f5f5f5;
-        }
-        .action-column {
-            text-align: center;
-        }
-        .dispatched {
-            color: #28a745;
+        .canceled {
+            color: red;
             font-weight: bold;
         }
     </style>
@@ -37,11 +22,11 @@
     <%@include file="navbar.jsp"%>
 
     <c:if test="${empty userobj}">
-        <c:redirect url="../login.jsp"></c:redirect>
+        <c:redirect url="../login.jsp"/>
     </c:if>
     <h3 class="text-center">Hello Admin</h3>
 
-    <table class="table table-striped ">
+    <table class="table table-striped">
         <thead class="bg-primary text-white">
             <tr>
                 <th scope="col">Order Id</th>
@@ -55,13 +40,14 @@
                 <th scope="col">Total Price</th>
                 <th scope="col">Payment type</th>
                 <th scope="col">Date</th>
+                <th scope="col">Status</th>
                 <th scope="col">Action</th>
             </tr>
         </thead>
         <tbody>
             <%
             BookOrderImpl dao = new BookOrderImpl(DBConnect.getConn());
-            List<Book_Order> blist = dao.getDispatchedOrder();
+            List<Book_Order> blist = dao.getCanceledOrder();
 
             for (Book_Order b : blist) {
             %>
@@ -77,15 +63,10 @@
                 <td><%=b.getTotalPrice()%></td>
                 <td><%=b.getPaymentType()%></td>
                 <td><%=b.getDate()%></td>
-                <td class="action-column">
-                    <a href="view_dispatched_order.jsp?order_id=<%=b.getOrderId()%>" class="btn btn-sm btn-primary">
+                <td class="canceled">canceled</td>
+                <td>
+                    <a href="view_canceled_order.jsp?order_id=<%=b.getOrderId()%>" class="btn btn-sm btn-primary">
                         <i class="fas fa-eye"></i> View
-                    </a>
-                    <a href="../order_ship?oid=<%= b.getOrderId() %>" class="btn btn-sm btn-primary">
-                        <i class="fas fa-truck"></i> Ship
-                    </a>
-                    <a href="../cancel_order_admin?oid=<%=b.getOrderId()%>" class="btn btn-sm btn-danger">
-                        <i class="fas fa-times-circle"></i> Cancel
                     </a>
                 </td>
             </tr>
