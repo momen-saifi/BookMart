@@ -5,6 +5,7 @@
 <%@page import="com.DAO.BookDAOImpl"%>
 <%@page import="com.DB.*"%>
 <%@page import="java.util.*"%>
+<%@page errorPage="error_page.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,6 +14,10 @@
 <%@include file="all_component/allCss.jsp"%>
 </head>
 <body style="background-color: #f0f1f2;">
+	<c:if test="${ empty userobj }">
+		<c:redirect url="login.jsp">
+		</c:redirect>
+	</c:if>
 	<%@include file="all_component/navbar.jsp"%>
 	<c:if test="${ not empty succMsg }">
 		<div class="alert alert-success">
@@ -37,6 +42,7 @@
 					<th scope="col">Author</th>
 					<th scope="col">Price</th>
 					<th scope="col">Category</th>
+					<th scope="col">Quantity</th>
 					<th scope="col">Action</th>
 				</tr>
 			</thead>
@@ -57,7 +63,12 @@
 					<td><%=b.getAuthor()%></td>
 					<td><%=b.getPrice()%></td>
 					<td><%=b.getBookCategory()%></td>
-					<td><a
+					<td><%= b.getQuantity() %></td>
+					<td>
+					  <a href="edit_books.jsp?id=<%=b.getBookId() %>" class="btn btn-sm btn-primary">
+                        <i class="fas fa-edit"></i>Edit
+                    </a>
+					<a
 						href="delete_old_book?email=<%=email%>&&category=<%=category%>&&bid=<%=b.getBookId()%>"
 						class="btn btn-sm btn-danger">Delete</a></td>
 				</tr>
@@ -69,6 +80,5 @@
 			</tbody>
 		</table>
 	</div>
-
 </body>
 </html>

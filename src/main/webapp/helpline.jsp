@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<%@page errorPage="error_page.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,7 +17,7 @@
 				<div class="text-success ">
 					<i class="fas fa-phone-square-alt fa-5x"></i>
 				</div>
-				<h3>24*7 Service</h3>
+				<h3>24x7 Service</h3>
 				<h4>Help Line Number</h4>
 				<h5>+91 0000000001</h5>
 				<a href="index.jsp" class="btn btn-primary">Home</a>

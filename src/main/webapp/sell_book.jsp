@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page isELIgnored="false"%>
+<%@page errorPage="error_page.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,24 +34,34 @@
 						</c:if>
 
 						<form action="add_old_book" method="post"
-							enctype="multipart/form-data">
+							enctype="multipart/form-data" id="myForm">
 							<input type="hidden" value="${userobj.email }" name="user">
 							<div class="form-group">
-								<label for="exampleInputEmail">Book Name*</label><input
+								<label for="exampleInputEmail">Book Name*</label> <input
 									name="bname" type="text" class="form-control"
-									id="exampleInputEmail" aria-describedby="emailHelp">
+									id="exampleInputEmail" aria-describedby="emailHelp" required>
 							</div>
 							<div class="form-group">
-								<label for="exampleInputEmail">Author Name*</label><input
+								<label for="exampleInputEmail">Author Name*</label> <input
 									name="author" type="text" class="form-control"
-									id="exampleInputEmail" aria-describedby="emailHelp">
+									id="exampleInputEmail" aria-describedby="emailHelp" required>
 							</div>
 							<div class="form-group">
-								<label for="exampleInputEmail">Price*</label><input name="price"
-									type="number" class="form-control" id="exampleInputEmail">
+								<label for="exampleInputEmail">Price*</label> <input
+									name="price" type="number" class="form-control"
+									id="exampleInputEmail" required>
 							</div>
 							<div class="form-group">
-								<label for="exampleFormControlFile1">Upload Photo</label><input
+								<label for="exampleInputEmail">Quantity*</label> <input
+									name="quantity" type="number" class="form-control"
+									id="exampleInputEmail" onchange="validateQuantity(this)">
+								<small id="quantityError" class="text-danger"></small>
+							</div>
+
+
+
+							<div class="form-group">
+								<label for="exampleFormControlFile1">Upload Photo</label> <input
 									name="bimg" type="file" class="form-control-file"
 									id="exampleFormControlFile1">
 							</div>
@@ -62,4 +73,24 @@
 		</div>
 	</div>
 </body>
+<script>
+    function validateQuantity(input) {
+        var quantity = input.value;
+        var quantityError = document.getElementById("quantityError");
+
+        if (quantity <= 0) {
+            quantityError.textContent = "Quantity must be greater than 0.";
+            input.value = ""; // Clear the input field
+            input.focus(); // Set focus back to the input field
+            document.getElementById("myForm").addEventListener("submit", function(event) {
+                event.preventDefault(); // Prevent form submission
+            });
+        } else {
+            quantityError.textContent = ""; // Clear any previous error message
+            document.getElementById("myForm").removeEventListener("submit", function(event) {
+                event.preventDefault(); // Allow form submission
+            });
+        }
+    }
+</script>
 </html>

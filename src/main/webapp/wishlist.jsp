@@ -6,6 +6,7 @@
 <%@page isELIgnored="false"%>
 <%@page import="java.util.*"%>
 <%@page import="com.entity.*"%>
+<%@page errorPage="error_page.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,15 +22,16 @@
 	</c:if>
 
 
-
 	<c:if test="${not empty succMsg }">
 		<div class="alert alert-success text-center" role="alert">${succMsg }</div>
 		<c:remove var="succMsg" scope="session" />
+
 	</c:if>
 
 	<c:if test="${not empty failedMsg }">
 		<div class="alert alert-danger text-center" role="alert">${failedMsg }</div>
 		<c:remove var="failedMsg" scope="session" />
+
 	</c:if>
 
 	<div class="container">
@@ -43,6 +45,7 @@
 						<table class="table table-striped">
 							<thead>
 								<tr>
+									<th scope="col">Image</th>
 									<th scope="col">Book Name</th>
 									<th scope="col">Author</th>
 									<th scope="col">Price</th>
@@ -70,23 +73,30 @@
 									<td><%=w.getPrice()%></td>
 									<td><a
 										href="remove_book_wishlist?bid=<%=w.getBid()%>&uid=<%=w.getUserId()%>&wid=<%=w.getWid()%>"
-										class="btn btn-sm btn-danger">Remove</a></td>
-									<td><a
-										href="wish_list_cart?bid=<%=w.getBid()%>&&uid=<%=w.getUserId()%>"
-										class="btn btn-danger btn-sm ml-2"><i
-											class="fas fa-cart-plus"></i>Add Cart</a></td>
+										class="btn btn-sm btn-danger">Remove</a> <%
+ if (w.getQuantity() == 0) {
+ %>
+										<button class="btn btn-secondary btn-sm ml-2" disabled>
+											<i class="fas fa-cart-plus"></i> Sold Out
+										</button> <%
+ } else {
+ %> <a
+										href="cart?bid=<%=w.getBid()%>&uid=<%=w.getUserId()%>&loc=wishlist"
+										class="btn btn-danger btn-sm ml-2"> <i
+											class="fas fa-cart-plus"></i> Add Cart
+									</a> <%
+ }
+ %></td>
+
+
+
 								</tr>
 
 								<%
 								}
 								%>
 
-								<tr>
-									<th scope="col">Total Price</th>
-									<th scope="col"></th>
-									<th scope="col"></th>
 
-								</tr>
 
 							</tbody>
 						</table>
