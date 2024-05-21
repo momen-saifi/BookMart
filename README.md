@@ -79,7 +79,7 @@ Project Creator
 ![OTP Verification Page](project_images/otp_verification_page.png)
 
 ### OTP
-![OTP](project_images/otp.png)
+![OTP](project_images/otp.jprg)
 
 ### Login
 ![Login](project_images/login.png)
